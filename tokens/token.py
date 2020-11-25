@@ -7,8 +7,9 @@ class TokenTypes(Enum):
   minus = 2
   mul = 3
   div = 4
-class Token(dataclass):
+@dataclass
+class Token:
   type_: TokenTypes
   value: int = None
   def __repr__(self):
-    return f"{self.type_}:" + str(self.value) if self.value != None else "\b"
+    return f"{self.type_}:{self.value}"
