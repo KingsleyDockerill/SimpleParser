@@ -7,6 +7,7 @@ class TokenTypes(Enum):
   minus = 2
   mul = 3
   div = 4
+  mod = 5
 @dataclass
 class Token:
   type_: TokenTypes

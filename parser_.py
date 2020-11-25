@@ -21,7 +21,7 @@ class Parser:
       return MinusNode(a, self.expr())
     return a
   def muldiv(self):
-    a = self.factor()
+    a = self.mod()
     self.advance()
     if self.tok != None and self.tok.type_ == TokenTypes.mul:
       self.advance()
@@ -29,6 +29,12 @@ class Parser:
     elif self.tok != None and self.tok.type_ == TokenTypes.div:
       self.advance()
       return DivNode(a, self.expr())
-    return a 
+    return a
+  def mod(self):
+    a = self.factor()
+    if self.tok != None and self.tok.type_ == TokenTypes.mod:
+      self.advance()
+      return ModNode(a, self.expr())
+    return a
   def factor(self):
     return NumberNode(self.tok.value)

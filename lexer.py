@@ -29,6 +29,9 @@ class Lexer:
       elif self.char == "/":
         self.advance()
         yield Token(TokenTypes.div)
+      elif self.char == "%":
+        self.advance()
+        yield Token(TokenTypes.mod)
       else:
         raise Exception("Illegal token")
   def generate_num(self):
