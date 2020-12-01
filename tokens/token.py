@@ -8,6 +8,11 @@ class TokenTypes(Enum):
   mul = 3
   div = 4
   mod = 5
+  word = 6
+  string = 7
+  lparen = 8
+  rparen = 9
+  comma = 10
 @dataclass
 class Token:
   type_: TokenTypes

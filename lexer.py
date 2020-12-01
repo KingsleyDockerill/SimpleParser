@@ -1,5 +1,6 @@
 from tokens.token import TokenTypes, Token
 from string import digits
+from error import *
 
 class Lexer:
   def __init__(self, text):
@@ -32,8 +33,19 @@ class Lexer:
       elif self.char == "%":
         self.advance()
         yield Token(TokenTypes.mod)
+      elif self.char == ",":
+        self.advance()
+        yield Token(TokenTypes.comma)
+      elif self.char in "'\"":
+        yield Token(TokenTypes.string, self.generate_string(self.char))
+      elif self.char == "(":
+        yield Token(TokenTypes.lparen)
+        self.advance()
+      elif self.char == ")":
+        yield Token(TokenTypes.rparen)
+        self.advance()
       else:
-        raise Exception("Illegal token")
+        yield Token(TokenTypes.word, self.generate_word())
   def generate_num(self):
     num = ""
     point_count = 0
@@ -45,3 +57,19 @@ class Lexer:
       if self.char == ".":
         point_count += 1
     return float(num)
+  def generate_word(self):
+    word = ""
+    while self.char != None and self.char not in "\n[(":
+      word += self.char
+      self.advance()
+    return word
+  def generate_string(self, symbol=""):
+    self.advance()
+    string = ""
+    while self.char not in (None, symbol):
+      string += self.char
+      self.advance()
+    if self.char == None:
+      raise Exception(Error("Early EOF Error", "Expected end of string, got EOF"))
+    self.advance()
+    return string

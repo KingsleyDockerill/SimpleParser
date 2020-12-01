@@ -1,5 +1,6 @@
 from node import *
 from tokens.token import TokenTypes
+from error import*
 
 class Parser:
   def __init__(self, toks):
@@ -11,6 +12,28 @@ class Parser:
       self.tok = next(self.toks)
     except StopIteration:
       self.tok = None
+  def lparen_missing(self):
+    raise Exception(Error("Syntax Error", f"Missing ( for {self.tok.value}"))
+  def builtins(self):
+    if self.tok.type_ != TokenTypes.word:
+      a = self.expr()
+    if self.tok != None and self.tok.type_ == TokenTypes.word:
+      if self.tok.value == "print":
+        self.advance()
+        if self.tok.type_ != TokenTypes.lparen:
+          self.lparen_missing()
+        self.advance()
+        args = []
+        while self.tok != None and self.tok.type_ != TokenTypes.rparen:
+          args.append(self.builtins())
+        if self.tok is None:
+          raise Exception(Error("Early EOF Error", "Expected ) to end arguments, got EOF"))
+        self.advance()
+        return PrintNode(args)
+    try:
+      return a
+    except:
+      pass
   def expr(self):
     a = self.muldiv()
     if self.tok != None and self.tok.type_ == TokenTypes.plus:
@@ -37,4 +60,9 @@ class Parser:
       return ModNode(a, self.expr())
     return a
   def factor(self):
-    return NumberNode(self.tok.value)
+    if self.tok.type_ == TokenTypes.float_:
+      return NumberNode(self.tok.value)
+    elif self.tok.type_ == TokenTypes.string:
+      return StringNode(self.tok.value)
+    else:
+      raise Exception(Error("Syntax Error", """Unexpected token found while parsing"""))

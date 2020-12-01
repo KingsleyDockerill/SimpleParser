@@ -1,0 +1,16 @@
+[[package]]
+category = "main"
+description = "values.get(input) - create list from input"
+name = "values"
+optional = false
+python-versions = "*"
+version = "2020.7.1"
+
+[metadata]
+content-hash = "7dae245fe62bc94ab4315f25edff54730eb42042534ff89a50029dc7ebffb65a"
+python-versions = "^3.8"
+
+[metadata.files]
+values = [
+    {file = "values-2020.7.1.tar.gz", hash = "sha256:bf5ab2a79e2a96e7be510e995c730d666832501913f2228f89b9932d25adcd24"},
+]

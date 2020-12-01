@@ -7,10 +7,10 @@ while True:
   try:
     lexer = Lexer(text)
     tokens = list(lexer.generate_tokens())
+    # print(tokens)
     parser = Parser(tokens)
-    node = parser.expr()
+    node = parser.builtins()
     interpreter = Interpreter()
     result = interpreter.interpret(node)
-    print(result)
   except Exception as e:
     print(e)

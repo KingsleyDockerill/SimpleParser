@@ -43,3 +43,17 @@ class ModNode:
     self.num2 = num2
   def __repr__(self):
     return f"({self.num1}%{self.num2})"
+
+@dataclass
+class StringNode:
+  def __init__(self, string):
+    self.string = string
+  def __repr__(self):
+    return f"'{self.string}'"
+
+@dataclass
+class PrintNode:
+  def __init__(self, args=[]):
+    self.args = args
+  def __repr__(self):
+    return f"({self.args})"
