@@ -57,3 +57,10 @@ class PrintNode:
     self.args = args
   def __repr__(self):
     return f"({self.args})"
+     
+@dataclass
+class InputNode:
+  def __init__(self, args=[]):
+    self.args = args
+  def __repr__(self):
+    return f"({self.args})"

@@ -7,6 +7,8 @@ class Interpreter:
   def interpret(self, node):
     if type(node) == NumberNode:
       return node.num
+    elif type(node) == StringNode:
+      return node.string
     elif type(node) == ModNode:
       num1 = self.interpret(node.num1)
       num2 = self.interpret(node.num2)

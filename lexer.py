@@ -67,7 +67,20 @@ class Lexer:
     self.advance()
     string = ""
     while self.char not in (None, symbol):
-      string += self.char
+      if self.char == "\\":
+        self.advance()
+        if self.char == "\\":
+          string += "\\"
+        elif self.char == "n":
+          string += "\n"
+        elif self.char == "t":
+          string += "\t"
+        elif self.char == "b":
+          string += "\b"
+        else:
+          string += "\\" + self.char
+      else:
+        string += self.char
       self.advance()
     if self.char == None:
       raise Exception(Error("Early EOF Error", "Expected end of string, got EOF"))
