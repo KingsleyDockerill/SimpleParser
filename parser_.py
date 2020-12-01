@@ -14,6 +14,8 @@ class Parser:
       self.tok = None
   def lparen_missing(self):
     raise Exception(Error("Syntax Error", f"Missing ( for {self.tok.value}"))
+  def unexpected_eof(self):
+    raise Exception(Error(f"Early EOF Error", "Expected ) to end arguments of {self.tok.value}, got EOF"))
   def argument_divider(self):
     raise Exception(Error("Syntax Error", f"Missing divider , between arguments of {self.tok.value}"))
   def builtins(self):
@@ -33,9 +35,19 @@ class Parser:
           if self.tok.type_ == TokenTypes.comma:
             self.advance()
         if self.tok is None:
-          raise Exception(Error("Early EOF Error", "Expected ) to end arguments, got EOF"))
+          self.unexpected_eof()
         self.advance()
         return PrintNode(args)
+      elif self.tok.value == "input":
+        self.advance()
+        if self.tok.type_ != TokenTypes.lparen:
+          self.lparen_missing()
+        self.advance()
+        prompt = self.builtins()
+        if self.tok is None:
+          self.unexpected_eof()
+        self.advance()
+        return InputNode(prompt)
     try:
       return a
     except:

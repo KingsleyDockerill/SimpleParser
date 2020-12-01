@@ -60,7 +60,7 @@ class PrintNode:
      
 @dataclass
 class InputNode:
-  def __init__(self, args=[]):
-    self.args = args
+  def __init__(self, prompt=""):
+    self.prompt = prompt
   def __repr__(self):
-    return f"({self.args})"
+    return f"({self.prompt})"

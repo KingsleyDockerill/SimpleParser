@@ -16,7 +16,10 @@ class Interpreter:
     elif type(node) == MulNode:
       num1 = self.interpret(node.num1)
       num2 = self.interpret(node.num2)
-      return num1 * num2
+      try:
+        return num1 * num2
+      except TypeError:
+        return num1 * int(num2)
     elif type(node) == DivNode:
       num1 = self.interpret(node.num1)
       num2 = self.interpret(node.num2)
@@ -35,3 +38,5 @@ class Interpreter:
         to_print.append(str(self.interpret(i)))
       print(" ".join(to_print))
       return None
+    elif type(node) == InputNode:
+      return input(self.interpret(node.prompt))
